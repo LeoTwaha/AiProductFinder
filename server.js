@@ -27,8 +27,10 @@ app.use(express.static("public"));
 
 // Create a Redis client
 const redisClient = createClient({
-    url: process.env.REDIS_URL || "redis://localhost:6379", // Use your Redis URL
+    url: process.env.REDIS_URL // Use the REDIS_URL from the environment variable
 });
+
+redisClient.on("error", (err) => console.error("Redis Client Error", err));
 
 redisClient.connect().catch(console.error);
 
