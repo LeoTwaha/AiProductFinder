@@ -4,6 +4,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "connect-redis": "^8.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
@@ -11,6 +12,7 @@
     "fetch": "^1.1.0",
     "node-fetch": "^3.3.2",
     "openai": "^4.89.0",
+    "redis": "^4.7.0",
     "serpapi": "^2.1.0"
   },
   "engines": {

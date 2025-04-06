@@ -7,6 +7,8 @@ import url from "url";
 
 import {prompt} from "./public/prompt.js"
 import OpenAi from "openai"
+import { RedisStore } from "connect-redis";
+import { createClient } from "redis";
 
 const apiKey = process.env.OPENAI_API_KEY;
 
@@ -16,18 +18,29 @@ const openai = new OpenAi({
 })
 
 
-const PORT = 5000;
+const PORT = process.env.PORT || 3000;
 const serpapiKey = process.env.SERPAPI_KEY;
 
 
 const app = express();
 app.use(express.static("public"));
+
+// Create a Redis client
+const redisClient = createClient({
+    url: process.env.REDIS_URL || "redis://localhost:6379", // Use your Redis URL
+});
+
+redisClient.connect().catch(console.error);
+
+// Use Redis for session storage
 app.use(session({
-    secret: process.env.SESSION_SECRET, // Use the secure key from your environment variable
+    store: new RedisStore({ client: redisClient }),
+    secret: process.env.SESSION_SECRET, // Use your secure session secret
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
+
 app.get('/api', async (req, res) => {
     if (!req.session.chat) {
         req.session.chat = []; // Initialize chat for the session
@@ -95,4 +108,4 @@ async function aiCall(query, log) {
     log.push({role: "assistant", content: assistantRes})
     return await assistantRes;
 }
-app.listen(PORT);
+app.listen(PORT, () => console.log(`port: ${PORT}`));
