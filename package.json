@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -14,6 +15,10 @@
     "node-fetch": "^3.3.2",
     "openai": "^4.89.0",
     "serpapi": "^2.1.0"
+  },
+  "engines": {
+    "node": "20.17.0",
+    "npm": "10.9.2"
   },
   "devDependencies": {
     "vite": "^6.2.2"
