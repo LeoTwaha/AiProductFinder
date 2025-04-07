@@ -45,7 +45,7 @@ document.body.addEventListener("keydown", async (e) => {
   }
 });
 async function renderResponse(input){
- 
+ try{
   document.getElementById(`${question}`).innerHTML = `
   <h2 class="newRes">${prompt[question - 1]}</h2>
  <div class="msg"><p>You: ${input.value}</p></div>
@@ -60,6 +60,7 @@ section.innerHTML += `
   `;
 const res = await fetch(`/api?q=${input.value}`);
 const aiRes = await res.json();
+
 const resArr = aiRes.response.split("|");
 
 if (resArr.length > 1) {
@@ -136,6 +137,16 @@ if (resArr.length > 1) {
         </div> 
   `;
 }
+ } catch (err){
+  document.getElementById(`${question}`).innerHTML = `
+  <h2>Something went wrong. Please try again.</h2>
+       <input type="text" id="input"/>
+       
+       <div id="btn-container" style="justify-content: center;">     
+       <button id="start-over" class="btns"><i class="fa-solid fa-arrow-rotate-left"></i> Start Over</button>
+       </div> 
+ `;
+ }
 scrollToBottom();
 }
 function getMatchHtml([best, cheapest]) {
