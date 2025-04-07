@@ -16,13 +16,13 @@ document.body.addEventListener("click", async(e) => {
     case "go-back": 
     const res = await fetch(`/del`);
     const data = await res.json();
-  
+    prompt.pop();
     section.removeChild(document.getElementById(`${question}`));
     question--;
     document.getElementById(`${question}`).innerHTML = `
     <h2>${prompt[question - 1]}</h2>
         <input type="text" id="input"/>
-        <div id="btn-container" ${question > 1 ? `style="justify-content: center;"`: ""}/>  
+        <div id="btn-container" ${question >= 1 ? `style="justify-content: center;"`: ""}/>  
         ${question > 1 ? buttonStr : `<button id="enter" class="btns arrow">Enter <i class="fa-solid fa-arrow-right"></i></button>`}
         </div> 
 
